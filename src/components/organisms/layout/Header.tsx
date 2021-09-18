@@ -1,7 +1,7 @@
 import { memo, VFC } from 'react'
 import {
-  Box,
   Flex,
+  HStack,
   Heading,
   Link,
   Button,
@@ -17,6 +17,7 @@ import { HamburgerIcon } from '@chakra-ui/icons'
 
 export const Header: VFC = memo(() => {
   const { isOpen, onOpen, onClose } = useDisclosure()
+
   return (
     <>
       <Flex
@@ -33,10 +34,10 @@ export const Header: VFC = memo(() => {
           </Heading>
         </Flex>
         <Flex align="center" fontSize="sm" flexGrow={2} display={{ base: 'none', md: 'flex' }}>
-          <Box pr={4}>
+          <HStack spacing={4}>
             <Link>ユーザー一覧</Link>
-          </Box>
-          <Link>設定</Link>
+            <Link>設定</Link>
+          </HStack>
         </Flex>
         <IconButton
           onClick={onOpen}
