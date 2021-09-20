@@ -18,7 +18,8 @@ export const useAuth = () => {
       try {
         const { data } = await axios.get<User>(`https://jsonplaceholder.typicode.com/users/${id}`)
         if (data) {
-          setLoginUser(data)
+          const isAdmin = data.id === 10
+          setLoginUser({ ...data, isAdmin })
           showMessage({ title: 'ログインしました', status: 'success' })
           history.push('/home')
         } else {
