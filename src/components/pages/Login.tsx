@@ -19,7 +19,9 @@ export const Login: VFC = memo(() => {
         <Divider my={4} />
         <Stack spacing={6} py={4} px={10}>
           <Input placeholder="ユーザーID" value={userId} onChange={onChangeUserId} />
-          <PrimaryButton onClick={onClickLogin}>ログイン</PrimaryButton>
+          <PrimaryButton onClick={onClickLogin} loading={loading} disabled={!userId || loading}>
+            ログイン
+          </PrimaryButton>
         </Stack>
       </Box>
     </Flex>
