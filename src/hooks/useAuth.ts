@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 import axios from 'axios'
-import { User } from './types/api/user'
+import { User } from '../types/api/user'
 import { useHistory } from 'react-router'
 
 export const useAuth = () => {
