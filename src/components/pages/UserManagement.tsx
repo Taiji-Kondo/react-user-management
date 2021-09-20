@@ -1,36 +1,42 @@
-import { memo, VFC } from 'react'
-import { Wrap, WrapItem, Box, Stack, Image, Text } from '@chakra-ui/react'
+import { memo, useCallback, useEffect, VFC } from 'react'
+import { Center, Spinner, useDisclosure, Wrap, WrapItem } from '@chakra-ui/react'
+
+import { UserCard } from '../organisms/user/UserCard'
+import { useAllUsers } from '../../hooks/useAllUsers'
+import { UserDetailModal } from '../organisms/user/UserDetailModal'
 
 export const UserManagement: VFC = memo(() => {
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const { getUsers, users, loading } = useAllUsers()
+
+  useEffect(() => {
+    getUsers()
+  }, [])
+
+  const onClickUser = useCallback(() => onOpen(), [])
+
   return (
-    <Wrap p={{ base: 4, md: 10 }}>
-      <WrapItem>
-        <Box
-          w="260px"
-          h="260px"
-          bg="white"
-          borderRadius="10px"
-          shadow="md"
-          p={4}
-          _hover={{ cursor: 'pointer', opacity: 0.8 }}
-        >
-          <Stack textAlign="center">
-            <Image
-              src="https://source.unsplash.com/random"
-              boxSize="160px"
-              borderRadius="full"
-              m="auto"
-              alt="プロフィール画像"
-            />
-            <Text fontSize="lg" fontWeight="bold">
-              ほげ
-            </Text>
-            <Text fontSize="sm" color="gray">
-              hoge
-            </Text>
-          </Stack>
-        </Box>
-      </WrapItem>
-    </Wrap>
+    <>
+      {loading ? (
+        <Center h="100vh">
+          <Spinner />
+        </Center>
+      ) : (
+        <Wrap p={{ base: 4, md: 10 }}>
+          {users.map(({ id, username, name }) => (
+            <WrapItem key={id} mx="auto">
+              <UserCard
+                imageUrl="https://source.unsplash.com/random"
+                userName={username}
+                fullName={name}
+                onClick={onClickUser}
+              />
+            </WrapItem>
+          ))}
+          )
+        </Wrap>
+      )}
+      <UserDetailModal isOpen={isOpen} onClose={onClose} />
+    </>
   )
 })
